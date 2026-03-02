@@ -3,7 +3,7 @@ from django.db import models
 from django.db.models import Avg, Count
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.db.models import Q
+# from django.db.models import Q
 
 
 # Common 1-5 rating choices
@@ -147,6 +147,7 @@ class FeedbackAggregate(models.Model):
 
     updated_at = models.DateTimeField(auto_now=True)
 
+
 @receiver(post_save, sender=Feedback)
 def update_aggregate(sender, instance, created, **kwargs):
     if not created:
@@ -164,10 +165,7 @@ def update_aggregate(sender, instance, created, **kwargs):
     def get_distribution(field_name):
         distribution = {str(i): 0 for i in range(1, 6)}
 
-        counts = (
-            responses.values(field_name)
-            .annotate(count=Count(field_name))
-        )
+        counts = responses.values(field_name).annotate(count=Count(field_name))
 
         for item in counts:
             distribution[str(item[field_name])] = item["count"]
