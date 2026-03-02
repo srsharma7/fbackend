@@ -108,7 +108,8 @@ class FeedbackAdmin(admin.ModelAdmin):
         "hands_on",
         "topic_rating",
         "feedback",
-        "suggestionssubmitted_at",
+        "suggestions",
+        "submitted_at",
     )
 
     list_filter = (
